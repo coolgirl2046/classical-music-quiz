@@ -80,3 +80,4 @@ classical-music-quiz/
 }
 ```
 - `state.json`은 실행할 때마다 바뀌는 개인 데이터라 `.gitignore`로 Git에서 제외했습니다.
+- clone 실습: 복제한 저장소에서 추가한 줄입니다.
