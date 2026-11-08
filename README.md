@@ -48,6 +48,8 @@ classical-music-quiz/
 ├── quiz.py       # Quiz 클래스 (문제 출력, 정답 확인, dict 변환)
 ├── state.json    # 실행 시 자동 생성되는 데이터 파일 (Git에는 올리지 않음)
 ├── .gitignore    # Git이 기록하지 않을 파일 목록
+├── docs/
+│   └── screenshots/  # 실행 화면 캡처 이미지
 └── README.md     # 프로젝트 설명서
 ```
 
@@ -81,3 +83,23 @@ classical-music-quiz/
 ```
 - `state.json`은 실행할 때마다 바뀌는 개인 데이터라 `.gitignore`로 Git에서 제외했습니다.
 - clone 실습: 복제한 저장소에서 추가한 줄입니다.
+
+## 📸 실행 화면
+
+### 개발 환경
+![개발 환경](docs/screenshots/01_env.png)
+
+### 퀴즈 추가
+![퀴즈 추가](docs/screenshots/02_add.png)
+
+### 퀴즈 목록
+![퀴즈 목록](docs/screenshots/03_list.png)
+
+### 퀴즈 풀기 (랜덤 출제)
+![퀴즈 풀기](docs/screenshots/04_play.png)
+
+### 점수 확인
+![점수 확인](docs/screenshots/05_score.png)
+
+### Git 커밋 그래프
+![Git 커밋 그래프](docs/screenshots/06_git_graph.png)
