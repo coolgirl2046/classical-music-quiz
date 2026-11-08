@@ -2,6 +2,7 @@
 
 import json
 import os
+import random
 
 from quiz import Quiz
 
@@ -130,7 +131,10 @@ class QuizGame:
         correct_count = 0          # 맞힌 문제 수
         print(f"\n📝 퀴즈를 시작합니다! (총 {total}문제)\n")
 
-        for number, quiz in enumerate(self.quizzes, start=1):
+        questions = self.quizzes[:]  # 원본 목록을 복사 (원본 순서는 그대로 두기)
+        random.shuffle(questions)    # 복사본의 순서를 무작위로 섞기
+
+        for number, quiz in enumerate(questions, start=1):
             quiz.display(number)
             user_answer = self.read_number("정답 입력: ", 1, 4)
 
