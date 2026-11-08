@@ -130,6 +130,17 @@ class QuizGame:
         new_quiz = Quiz(question, choices, answer)
         self.quizzes.append(new_quiz)
         print(f"\n✅ 퀴즈가 추가되었습니다! (현재 총 {len(self.quizzes)}개)")
+    def show_quiz_list(self):
+        """등록된 퀴즈의 문제만 번호와 함께 보여준다."""
+        if len(self.quizzes) == 0:
+            print("\n📭 등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해 주세요.")
+            return
+
+        print(f"\n📋 등록된 퀴즈 목록 (총 {len(self.quizzes)}개)\n")
+        print("-" * 40)
+        for number, quiz in enumerate(self.quizzes, start=1):
+            print(f"[{number}] {quiz.question}")
+        print("-" * 40)
 
     def run(self):
         """메뉴를 보여주고, 사용자가 종료를 고를 때까지 반복한다."""
@@ -142,7 +153,7 @@ class QuizGame:
             elif choice == 2:
                 self.add_quiz()
             elif choice == 3:
-                print("\n(퀴즈 목록 기능은 준비 중입니다.)")
+                self.show_quiz_list()
             elif choice == 4:
                 print("\n(점수 확인 기능은 준비 중입니다.)")
             else:
