@@ -105,6 +105,7 @@ class QuizGame:
         score = round(correct_count / total * 100)  # 100점 만점으로 환산
         print("=" * 40)
         print(f"🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)")
+        self.update_best_score(score)
         print("=" * 40)
     def read_text(self, prompt):
         """빈 칸이 아닌 글자를 입력받을 때까지 계속 다시 묻는다."""
@@ -141,6 +142,20 @@ class QuizGame:
         for number, quiz in enumerate(self.quizzes, start=1):
             print(f"[{number}] {quiz.question}")
         print("-" * 40)
+    def update_best_score(self, score):
+        """이번 점수가 최고 점수보다 높으면 최고 점수를 바꾼다."""
+        if self.best_score is None or score > self.best_score:
+            self.best_score = score
+            print("🎉 새로운 최고 점수입니다!")
+        else:
+            print(f"(최고 점수는 {self.best_score}점입니다.)")
+
+    def show_best_score(self):
+        """최고 점수를 보여준다. 아직 안 풀었으면 안내한다."""
+        if self.best_score is None:
+            print("\n📭 아직 퀴즈를 풀지 않았습니다. 1번 메뉴에서 먼저 풀어보세요!")
+        else:
+            print(f"\n🏆 최고 점수: {self.best_score}점")
 
     def run(self):
         """메뉴를 보여주고, 사용자가 종료를 고를 때까지 반복한다."""
@@ -155,7 +170,7 @@ class QuizGame:
             elif choice == 3:
                 self.show_quiz_list()
             elif choice == 4:
-                print("\n(점수 확인 기능은 준비 중입니다.)")
+                self.show_best_score()
             else:
                 print("\n👋 게임을 종료합니다. 다음에 또 만나요!")
                 break
