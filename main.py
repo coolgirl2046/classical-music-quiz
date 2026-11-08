@@ -106,6 +106,30 @@ class QuizGame:
         print("=" * 40)
         print(f"🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)")
         print("=" * 40)
+    def read_text(self, prompt):
+        """빈 칸이 아닌 글자를 입력받을 때까지 계속 다시 묻는다."""
+        while True:
+            text = input(prompt).strip()
+            if text == "":
+                print("⚠️ 빈 칸은 입력할 수 없습니다. 다시 입력하세요.")
+                continue
+            return text
+
+    def add_quiz(self):
+        """사용자에게 문제, 선택지 4개, 정답 번호를 받아 새 퀴즈를 등록한다."""
+        print("\n📌 새로운 퀴즈를 추가합니다.\n")
+        question = self.read_text("문제를 입력하세요: ")
+
+        choices = []
+        for i in range(1, 5):  # 1, 2, 3, 4
+            choice = self.read_text(f"선택지 {i}: ")
+            choices.append(choice)
+
+        answer = self.read_number("정답 번호 (1-4): ", 1, 4)
+
+        new_quiz = Quiz(question, choices, answer)
+        self.quizzes.append(new_quiz)
+        print(f"\n✅ 퀴즈가 추가되었습니다! (현재 총 {len(self.quizzes)}개)")
 
     def run(self):
         """메뉴를 보여주고, 사용자가 종료를 고를 때까지 반복한다."""
@@ -116,7 +140,7 @@ class QuizGame:
             if choice == 1:
                 self.play_quiz()
             elif choice == 2:
-                print("\n(퀴즈 추가 기능은 준비 중입니다.)")
+                self.add_quiz()
             elif choice == 3:
                 print("\n(퀴즈 목록 기능은 준비 중입니다.)")
             elif choice == 4:
