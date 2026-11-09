@@ -70,7 +70,7 @@ class QuizGame:
             self.quizzes = [Quiz.from_dict(item) for item in data["quizzes"]]
             best = data.get("best_score")
             # 최고 점수가 숫자가 아니면 이상한 파일이라고 판단
-            if best is not None and not isinstance(best, int):
+            if best is not None and type(best) is not int:
                 raise ValueError("최고 점수 형식이 올바르지 않습니다.")
             self.best_score = best
             best_text = "없음" if best is None else f"{best}점"
@@ -95,8 +95,10 @@ class QuizGame:
             # ensure_ascii=False : 한글을 그대로 저장 / indent=4 : 보기 좋게 줄 맞춤
             with open(STATE_FILE, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
+            return True   # 저장 성공을 알려 줘요
         except OSError:
             print("⚠️ 파일 저장 중 오류가 발생했습니다. 이번 변경 내용은 저장되지 않았습니다.")
+            return False  # 저장 실패를 알려 줘요
 
     # ---------- 화면 / 입력 ----------
 
@@ -274,8 +276,12 @@ def main():
     except (KeyboardInterrupt, EOFError):
         # 게임 도중 Ctrl+C를 누르거나 입력이 끊겨도
         # 갑자기 꺼지지 않고, 저장한 다음 안내하고 종료해요
-        game.save_state()
-        print("\n\n⚠️ 입력이 중단되어 데이터를 저장하고 안전하게 종료합니다.")
+        # save_state()가 돌려주는 값(True/False)으로 실제 저장 결과를 알려 줘요
+        saved = game.save_state()
+        if saved:
+            print("\n\n⚠️ 입력이 중단되어 데이터를 저장하고 안전하게 종료합니다.")
+        else:
+            print("\n\n⚠️ 입력이 중단되어 종료합니다. (데이터는 저장되지 못했습니다)")
 
 
 # 이 파일을 직접 실행했을 때(python main.py)만 게임을 시작하라는 뜻
