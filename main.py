@@ -66,6 +66,10 @@ class QuizGame:
             # 파일을 읽기("r") 모드로 열기. utf-8은 한글이 깨지지 않게 하는 설정
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)  # 파일 내용을 파이썬이 쓰는 모양(dict)으로 바꾸기
+            # 파일 전체는 dict, quizzes는 list(목록)여야 해요
+            # 빈 목록 []은 정상(퀴즈 0개)이지만, {}처럼 모양이 다르면 손상으로 판단
+            if not isinstance(data, dict) or not isinstance(data["quizzes"], list):
+                raise ValueError("퀴즈 목록 형식이 올바르지 않습니다.")
             # 저장된 문제들을 하나씩 Quiz로 되살리기
             self.quizzes = [Quiz.from_dict(item) for item in data["quizzes"]]
             best = data.get("best_score")
