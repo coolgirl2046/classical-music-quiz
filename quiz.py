@@ -52,9 +52,24 @@ class Quiz:
         question = data["question"]
         choices = data["choices"]
         answer = data["answer"]
-        # 내용이 이상하면(보기가 4개가 아니거나, 정답이 1~4가 아니거나) 오류를 알려요
+        # 내용이 이상하면 오류를 알려요
         # → 그러면 main.py가 "파일이 손상됐다"고 판단하고 기본 퀴즈로 복구해요
-        if not isinstance(question, str) or not isinstance(choices, list) \
-                or len(choices) != 4 or answer not in (1, 2, 3, 4):
-            raise ValueError("퀴즈 형식이 올바르지 않습니다.")
+
+        # 1) 문제 글은 비어 있지 않은 글자(str)여야 해요
+        if not isinstance(question, str) or question.strip() == "":
+            raise ValueError("문제 형식이 올바르지 않습니다.")
+
+        # 2) 보기는 4개짜리 목록(list)이고, 4개 모두 비어 있지 않은 글자여야 해요
+        #    (직접 입력할 때와 똑같은 기준이에요)
+        if not isinstance(choices, list) or len(choices) != 4:
+            raise ValueError("선택지 형식이 올바르지 않습니다.")
+        for choice in choices:
+            if not isinstance(choice, str) or choice.strip() == "":
+                raise ValueError("선택지 형식이 올바르지 않습니다.")
+
+        # 3) 정답은 "진짜 정수(int)"이고 1~4 사이여야 해요
+        #    type(answer) is int : 2.0(소수)이나 True(참/거짓)는 정수로 치지 않아요
+        #    (파이썬은 2.0 == 2 를 같다고 보기 때문에 이렇게 정확히 확인해요)
+        if type(answer) is not int or not 1 <= answer <= 4:
+            raise ValueError("정답 번호 형식이 올바르지 않습니다.")
         return Quiz(question, choices, answer)
